@@ -9,17 +9,17 @@ services:
     startCommand: node server.js
     envVars:
       - key: MONGO_URI
-        sync: false # This tells Render to ask you for the value during setup
+        sync: false # Render will prompt you for this value
       - key: JWT_SECRET
         generateValue: true
       - key: PORT
         value: 5001
 
-  # Frontend: Static Site (Uses type: web + runtime: static)
+  # Frontend: Static Site (Type: web + Runtime: static)
   - type: web
     name: morgex-frontend
     runtime: static
-    plan: free
+    # NOTE: 'plan' is not used for static runtimes
     rootDir: morgex-client
     buildCommand: npm install && npm run build
     staticPublishPath: dist
