@@ -3,12 +3,13 @@ services:
   - type: web
     name: morgex-api
     env: node
+    plan: free
     rootDir: morgex-server
     buildCommand: npm install
-    startCommand: npm start
+    startCommand: node server.js
     envVars:
       - key: MONGO_URI
-        sync: false # Set this in Render Dashboard
+        sync: false # Set this in Render Dashboard after creation
       - key: JWT_SECRET
         generateValue: true
       - key: PORT
@@ -18,13 +19,11 @@ services:
   - type: static
     name: morgex-web
     env: static
+    plan: free
     rootDir: morgex-client
     buildCommand: npm install && npm run build
     staticPublishDir: dist
     envVars:
       - key: VITE_API_URL
-        fromService:
-          type: web
-          name: morgex-api
-          property: url
+        # Automatic interpolation from the other service
         value: ${morgex-api.url}/api
