@@ -1,7 +1,7 @@
 services:
   # Backend: Node.js Web Service
   - type: web
-    name: morgex-api
+    name: morgex-backend
     runtime: node
     plan: free
     rootDir: morgex-server
@@ -9,21 +9,28 @@ services:
     startCommand: node server.js
     envVars:
       - key: MONGO_URI
-        sync: false # Set this in Render Dashboard after creation
+        # Render will prompt you for this value
       - key: JWT_SECRET
         generateValue: true
       - key: PORT
         value: 5001
 
-  # Frontend: Static Site (Uses type: web + runtime: static in Blueprints)
-  - type: web
-    name: morgex-web
-    runtime: static
+  # Frontend: Static Site
+  - type: static
+    name: morgex-frontend
     plan: free
     rootDir: morgex-client
     buildCommand: npm install && npm run build
-    staticPublishPath: ./dist
+    publishPath: dist
     envVars:
       - key: VITE_API_URL
-        # Automatic interpolation from the other service
-        value: ${morgex-api.url}/api
+        # Pulls the backend URL automatically
+        fromService:
+          type: web
+          name: morgex-backend
+          property: url
+    # SPA Routing: Redirect all requests to index.html for React Router
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
