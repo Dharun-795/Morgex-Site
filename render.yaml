@@ -2,7 +2,7 @@ services:
   # Backend: Node.js Web Service
   - type: web
     name: morgex-api
-    env: node
+    runtime: node
     plan: free
     rootDir: morgex-server
     buildCommand: npm install
@@ -15,14 +15,14 @@ services:
       - key: PORT
         value: 5001
 
-  # Frontend: Static Site
-  - type: static
+  # Frontend: Static Site (Uses type: web + runtime: static in Blueprints)
+  - type: web
     name: morgex-web
-    env: static
+    runtime: static
     plan: free
     rootDir: morgex-client
     buildCommand: npm install && npm run build
-    staticPublishDir: dist
+    staticPublishPath: ./dist
     envVars:
       - key: VITE_API_URL
         # Automatic interpolation from the other service
