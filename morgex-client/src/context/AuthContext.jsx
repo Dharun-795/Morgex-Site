@@ -50,10 +50,20 @@ export const AuthProvider = ({ children }) => {
     const res = await fetch(`${API_URL}/auth/register`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, email, password })
+      body: JSON.stringify({ username, email, password }),
     });
-    
-    const data = await res.json();
+
+    // Check if the response is actually JSON before parsing
+    const contentType = res.headers.get('content-type');
+    let data;
+    if (contentType && contentType.includes('application/json')) {
+      data = await res.json();
+    } else {
+      const text = await res.text();
+      console.error('Server returned non-JSON response:', text);
+      throw new Error(`Server Response: ${res.status}. Check backend logs.`);
+    }
+
     console.log('Register Response:', data);
     if (!res.ok) {
       console.error('Register Error Data:', data);
