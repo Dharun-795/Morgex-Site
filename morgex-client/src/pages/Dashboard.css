@@ -1,0 +1,138 @@
+.dashboard-header {
+  margin-top: 130px;
+  margin-bottom: 40px;
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 20px;
+}
+
+.dashboard-header h2 {
+  font-size: 2rem;
+  color: var(--dark-base);
+  margin-bottom: 10px;
+}
+
+.dashboard-header p {
+  color: #64748b;
+  font-size: 1.1rem;
+}
+
+.last-login {
+  color: var(--primary);
+  font-weight: 500;
+  display: block;
+  margin-top: 5px;
+}
+
+.course-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: flex-start;
+}
+
+.course-progress-card {
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+  overflow: hidden;
+  transition: all 0.4s ease;
+  width: 100%;
+  max-width: 350px;
+}
+
+.access-info-bar {
+  background: #f8fafc;
+  padding: 10px 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.info-item {
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.info-item.expiry {
+  color: #0f172a;
+}
+
+.course-progress-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(213, 139, 28, 0.25);
+}
+
+.progress-bar-container {
+  padding: 20px;
+  background-color: transparent;
+  border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.progress-info {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  color: var(--dark-mid);
+  font-weight: 500;
+}
+
+.progress-bg {
+  height: 8px;
+  background-color: #e2e8f0;
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 15px;
+}
+
+.progress-fill {
+  height: 100%;
+  background-color: var(--primary);
+  border-radius: 4px;
+  transition: width 1s ease-in-out;
+}
+
+.continue-btn {
+  width: 100%;
+  padding: 10px;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.empty-icon {
+  font-size: 4rem;
+  margin-bottom: 20px;
+}
+
+.empty-state h3 {
+  font-size: 1.5rem;
+  color: var(--dark-base);
+  margin-bottom: 10px;
+}
+
+.empty-state p {
+  color: #64748b;
+  margin-bottom: 25px;
+  max-width: 400px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.exp-btn {
+  background-color: var(--dark-mid);
+  color: white;
+}
+
+.exp-btn:hover {
+  background-color: var(--dark-base);
+}

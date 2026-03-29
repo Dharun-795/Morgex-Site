@@ -1,0 +1,112 @@
+@import url('https://fonts.googleapis.com/css2?family=M+PLUS+Rounded+1c&family=Roboto:wght@300;400;500;700&display=swap');
+
+:root {
+  --primary: #d58b1c;
+  --primary-hover: #a1360b;
+  --dark-base: #0f2027;
+  --dark-mid: #203a43;
+  --dark-light: #2c5364;
+  --text-main: #444;
+  --text-light: #fff;
+  --bg-light: #f1f1f1;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'M PLUS Rounded 1c', sans-serif;
+  background-color: var(--bg-light);
+  color: var(--text-main);
+  scroll-behavior: smooth;
+}
+
+/* Typography elements */
+h1, h2, h3, h4, h5, h6 {
+  font-family: "M PLUS Rounded 1c", sans-serif;
+  color: var(--dark-mid);
+}
+
+p {
+  line-height: 1.6;
+}
+
+/* Animations */
+@keyframes gradientMove {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Button utility */
+.btn {
+  border: none;
+  border-radius: 10px;
+  padding: 12px 30px;
+  background-color: var(--primary);
+  color: var(--text-light);
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* Interactive Link Utilities */
+.link-fancy {
+  color: var(--primary);
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.link-fancy::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  top: 0;
+  bottom: 0;
+  background-image: linear-gradient(90deg, rgb(229, 175, 75), rgb(229, 175, 75));
+  background-size: 0 2px;
+  background-repeat: no-repeat;
+  background-position: center bottom;
+  transition: background-size .3s ease-in;
+}
+
+.link-fancy:hover::before {
+  background-size: 100% 2px;
+}
+
+/* Forms */
+.input-field {
+  width: 100%;
+  padding: 12px 15px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-family: inherit;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+.input-field:focus {
+  outline: none;
+  border-color: var(--primary);
+}

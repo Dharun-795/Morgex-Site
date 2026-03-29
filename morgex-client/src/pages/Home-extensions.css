@@ -1,0 +1,147 @@
+/* Additional Home Styles */
+
+.instructor-grid {
+  display: flex;
+  justify-content: flex-start;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.instructor-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+  text-align: left;
+  width: 300px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.instructor-card:hover {
+  transform: translateY(-12px);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+  border-color: var(--primary);
+}
+
+.instructor-avatar {
+  font-size: 5rem;
+  margin-bottom: 15px;
+  display: inline-block;
+}
+
+.instructor-title {
+  color: var(--primary);
+  font-weight: 500;
+  margin-bottom: 15px;
+  margin-top: 5px;
+}
+
+.instructor-bio {
+  font-size: 0.95rem;
+  color: #64748b;
+}
+
+.testimonial-grid {
+  display: flex;
+  justify-content: flex-start;
+  gap: 30px;
+  flex-wrap: wrap;
+  margin-top: 30px;
+}
+
+.testimonial-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 35px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+  width: 400px;
+  position: relative;
+  transition: all 0.4s ease;
+}
+
+.testimonial-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+}
+
+.testimonial-card::before {
+  content: '"';
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  font-size: 4rem;
+  color: #e2e8f0;
+  font-family: serif;
+}
+
+.quote {
+  font-style: italic;
+  color: #475569;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 20px;
+}
+
+.student-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.student-name {
+  font-weight: bold;
+  color: var(--dark-base);
+}
+
+.student-role {
+  font-size: 0.85rem;
+  color: var(--primary);
+}
+
+.newsletter-section {
+  background: linear-gradient(135deg, var(--dark-base), var(--dark-light));
+  color: white;
+  padding: 60px 40px;
+  text-align: left;
+  margin-top: 60px;
+}
+
+.newsletter-section p {
+  color: #e2e8f0;
+  text-align: left;
+  margin-bottom: 30px;
+}
+
+.newsletter-form {
+  display: flex;
+  justify-content: flex-start;
+  gap: 15px;
+  max-width: 500px;
+  margin: 0;
+}
+
+.newsletter-form .input-field {
+  flex: 1;
+}
+
+@media (max-width: 850px) {
+  .instructor-card, .testimonial-card {
+    width: 100%;
+    max-width: 100%;
+  }
+  
+  .newsletter-section {
+    padding: 40px 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .newsletter-form {
+    flex-direction: column;
+  }
+}

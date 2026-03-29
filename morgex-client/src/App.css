@@ -1,0 +1,95 @@
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.main-content {
+  flex: 1;
+}
+
+/* Base resets that were in index.css but needed here as well for specific scoping */
+.hero {
+  min-height: 95vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  padding-top: 80px; /* Shifts text away from navbar */
+  background: linear-gradient(rgba(15, 32, 39, 0.75), rgba(44, 83, 100, 0.85)), url('/hero-bg.png') center/cover no-repeat;
+  color: white;
+  position: relative;
+}
+
+/* Float animation for the hero content */
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-10px); }
+  100% { transform: translateY(0px); }
+}
+
+.hero > * {
+  animation: float 6s ease-in-out infinite;
+}
+
+.hero h1 {
+  font-size: 56px;
+  margin-bottom: 20px;
+  /* Premium Metallic/Gold Gradient Text */
+  background: linear-gradient(135deg, #fff, #ffeaa7, var(--primary));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.2));
+  font-weight: 800;
+}
+
+.hero p {
+  color: #eee;
+  max-width: 600px;
+  text-align: center;
+  font-size: 1.2rem;
+}
+
+/* Sections */
+.section-container {
+  max-width: 1200px;
+  margin: 50px auto;
+  padding: 0 20px;
+}
+
+.section-container h2 {
+  font-size: 32px;
+  margin-bottom: 25px;
+  text-align: center;
+}
+
+/* Course Grid */
+.course-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 30px;
+  justify-content: flex-start;
+}
+
+@media (max-width: 850px) {
+  .hero {
+    padding-left: 20px;
+    padding-right: 20px;
+    min-height: 80vh;
+  }
+  
+  .hero h1 {
+    font-size: 38px;
+  }
+
+  .section-container {
+    margin: 30px auto;
+    padding: 0 15px;
+  }
+  
+  .course-grid {
+    justify-content: center;
+  }
+}

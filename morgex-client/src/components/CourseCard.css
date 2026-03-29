@@ -1,0 +1,79 @@
+.course-card {
+  text-decoration: none;
+  background: rgba(255, 255, 255, 0.85); /* Glass effect */
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+  width: 330px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  cursor: pointer;
+}
+
+.course-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 15px 35px rgba(213, 139, 28, 0.25);
+  border-color: var(--primary);
+}
+
+.card-image img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-bottom: 3px solid var(--primary);
+}
+
+.card-content {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-title {
+  font-size: 1.1rem;
+  margin-bottom: 10px;
+  font-family: "Roboto", sans-serif;
+  color: var(--dark-mid);
+}
+
+.card-desc {
+  font-size: 0.9rem;
+  margin-bottom: 15px;
+  color: #555;
+  flex-grow: 1;
+}
+
+.card-instructor {
+  font-size: 0.85rem;
+  font-weight: 300;
+  margin-bottom: 15px;
+  color: var(--dark-light);
+}
+
+.card-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.badge {
+  background-color: var(--primary);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+  font-weight: bold;
+}
+
+.meta-tag {
+  background-color: #e0e0e0;
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 5px;
+  font-size: 0.75rem;
+}

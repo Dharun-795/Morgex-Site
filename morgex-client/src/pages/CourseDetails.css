@@ -1,0 +1,154 @@
+.loading-state, .error-state {
+  text-align: center;
+  padding: 100px 20px;
+  font-size: 1.2rem;
+}
+
+.course-header-bg {
+  background: var(--dark-base);
+  color: white;
+  padding: 160px 0 40px 0;
+  margin-bottom: 40px;
+}
+
+.course-header-content {
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.course-header-content h1 {
+  color: white;
+  font-size: 2.5rem;
+  margin-bottom: 15px;
+  max-width: 800px;
+}
+
+.course-desc-large {
+  font-size: 1.2rem;
+  margin-bottom: 20px;
+  color: #e2e8f0;
+  max-width: 800px;
+}
+
+.course-meta-large {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
+}
+
+.instructor-name {
+  color: #cbd5e1;
+}
+
+.course-body-layout {
+  display: flex;
+  gap: 40px;
+  position: relative;
+  align-items: flex-start;
+}
+
+.course-main-content {
+  flex: 1;
+  max-width: 750px;
+}
+
+.learning-objectives {
+  border: 1px solid #e2e8f0;
+  padding: 25px;
+  background: white;
+  margin-bottom: 40px;
+}
+
+.learning-objectives ul {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 15px;
+  list-style: none;
+}
+
+.learning-objectives li::before {
+  content: '✓';
+  color: var(--primary);
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.curriculum-list .module {
+  border: 1px solid #e2e8f0;
+  padding: 20px;
+  background: white;
+  margin-bottom: -1px; /* collapse borders */
+}
+
+.curriculum-list .module h4 {
+  margin-bottom: 5px;
+}
+
+/* Sidebar styling mimicking Udemy */
+.course-sidebar-wrapper {
+  width: 350px;
+  flex-shrink: 0;
+}
+
+.course-sidebar-card {
+  background: white;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  position: sticky;
+  top: 100px;
+  overflow: hidden;
+}
+
+.sidebar-image {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.sidebar-content {
+  padding: 25px;
+}
+
+.price {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: var(--dark-base);
+}
+
+.buy-btn {
+  width: 100%;
+  font-size: 1.2rem;
+  padding: 15px;
+  margin-bottom: 15px;
+}
+
+.guarantee {
+  text-align: center;
+  color: #64748b;
+  margin-bottom: 20px;
+}
+
+.sidebar-features {
+  list-style: none;
+  font-size: 0.95rem;
+  color: #475569;
+}
+
+.sidebar-features li {
+  margin-bottom: 10px;
+}
+
+@media (max-width: 900px) {
+  .course-body-layout {
+    flex-direction: column-reverse;
+  }
+  .course-sidebar-wrapper {
+    width: 100%;
+    margin-bottom: 40px;
+  }
+  .course-sidebar-card {
+    position: static;
+  }
+}

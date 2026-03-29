@@ -1,0 +1,32 @@
+.footer {
+  background: linear-gradient(rgba(15, 32, 39, 0.8), rgba(15, 32, 39, 0.95)), url('/footer-bg.png') center/cover no-repeat;
+  margin: 0;
+  padding: 60px 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.footer-glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 30px 60px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+  text-align: center;
+}
+
+.footer-glass h3 {
+  font-family: inherit;
+  color: #fff;
+  margin: 0 0 10px 0;
+  font-size: 1.5rem;
+}
+
+.footer-glass p {
+  color: #a0aec0;
+  margin: 0;
+  font-size: 0.95rem;
+}

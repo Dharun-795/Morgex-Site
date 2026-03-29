@@ -1,0 +1,108 @@
+/* Layout Grid for Home with Sidebar */
+.home-layout-grid {
+  display: flex;
+  gap: 50px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 80px 40px;
+  align-items: flex-start;
+}
+
+.home-main-content {
+  flex: 1;
+  max-width: 900px;
+}
+
+.scroll-section {
+  scroll-margin-top: 100px; /* Modern offset for fixed navbar */
+  margin-bottom: 60px;
+}
+
+.scroll-section h2 {
+  font-size: 2.2rem;
+  margin-bottom: 25px;
+  color: var(--dark-base);
+}
+
+.home-sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  position: sticky;
+  top: 150px; /* offset from navbar */
+}
+
+.toc-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  padding: 25px;
+  border-radius: 16px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.05);
+}
+
+.toc-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 15px;
+  color: var(--dark-base);
+  border-bottom: 2px solid #e2e8f0;
+  padding-bottom: 10px;
+}
+
+.toc-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toc-list li {
+  margin-bottom: 12px;
+}
+
+.toc-list a {
+  text-decoration: none;
+  color: #64748b;
+  font-size: 1.05rem;
+  transition: all 0.3s ease;
+  display: block;
+  border-left: 3px solid transparent;
+  padding-left: 10px;
+}
+
+.toc-list a:hover {
+  color: var(--primary);
+  transform: translateX(5px);
+}
+
+.toc-list a.active {
+  color: var(--primary);
+  font-weight: bold;
+  border-left-color: var(--primary);
+}
+
+@media (max-width: 1000px) {
+  .home-layout-grid {
+    flex-direction: column;
+    padding: 40px 20px;
+    gap: 30px;
+  }
+  .home-main-content {
+    max-width: 100%;
+  }
+  .home-sidebar {
+    display: none; /* Hide TOC on mobile/tablet */
+  }
+  .scroll-section {
+    scroll-margin-top: 80px;
+    margin-bottom: 40px;
+  }
+}
+
+@media (max-width: 480px) {
+  .home-layout-grid {
+    padding: 30px 15px;
+  }
+  .scroll-section h2 {
+    font-size: 1.8rem;
+  }
+}

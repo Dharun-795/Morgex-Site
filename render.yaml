@@ -1,0 +1,30 @@
+services:
+  # Backend: Node.js Web Service
+  - type: web
+    name: morgex-api
+    env: node
+    rootDir: morgex-server
+    buildCommand: npm install
+    startCommand: npm start
+    envVars:
+      - key: MONGO_URI
+        sync: false # Set this in Render Dashboard
+      - key: JWT_SECRET
+        generateValue: true
+      - key: PORT
+        value: 5001
+
+  # Frontend: Static Site
+  - type: static
+    name: morgex-web
+    env: static
+    rootDir: morgex-client
+    buildCommand: npm install && npm run build
+    staticPublishDir: dist
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: morgex-api
+          property: url
+        value: ${morgex-api.url}/api

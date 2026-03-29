@@ -1,0 +1,203 @@
+.navbar {
+  padding: 15px 0;
+  position: fixed; /* Changed to fixed for smooth scrolling effect */
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  transition: all 0.4s ease;
+}
+
+.navbar-solid {
+  background: linear-gradient(135deg, var(--dark-base), var(--dark-mid), var(--dark-light));
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 15px 0;
+}
+
+.navbar-transparent {
+  background: transparent;
+  padding: 30px 0; /* More padding when at top */
+}
+
+.navbar-container {
+  max-width: 1400px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 40px;
+}
+
+.navbar-left {
+  display: flex;
+  align-items: center;
+  gap: 90px; /* Increased space between logo and links */
+}
+
+.navbar-logo {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  text-decoration: none;
+}
+
+/* Make logo same size everywhere and bigger */
+.logo-emblem {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%; /* Trims square background to a circle */
+  object-fit: cover;
+  background-color: transparent;
+  mix-blend-mode: multiply; /* Helps remove white bg if light behind it */
+}
+
+.navbar-solid .logo-emblem {
+  mix-blend-mode: normal; /* Restore normal blending on dark solid background */
+}
+
+.logo-text {
+  height: 90px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+}
+
+.navbar-links {
+  display: flex;
+  gap: 30px;
+}
+
+.navbar-links a {
+  color: white;
+  font-size: 1.1rem;
+  font-weight: 500;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3); /* better visibility on transparent */
+}
+
+.navbar-auth .user-area {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.user-name {
+  font-weight: 500;
+  color: white;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+.nav-btn {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+}
+
+.nav-btn.outline {
+  background-color: transparent;
+  border: 1px solid var(--primary);
+  color: white; /* Changed for transparency */
+}
+
+.nav-btn.outline:hover {
+  background-color: var(--primary);
+  color: white;
+}
+
+/* --- Mobile Responsiveness & Hamburger Bar --- */
+
+.nav-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30px;
+  height: 21px;
+  cursor: pointer;
+  z-index: 1100;
+}
+
+.nav-toggle .bar {
+  height: 3px;
+  width: 100%;
+  background-color: white;
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 850px) {
+  .nav-toggle {
+    display: flex;
+  }
+
+  .nav-toggle.open .bar:nth-child(1) {
+    transform: translateY(9px) rotate(45deg);
+  }
+  .nav-toggle.open .bar:nth-child(2) {
+    opacity: 0;
+  }
+  .nav-toggle.open .bar:nth-child(3) {
+    transform: translateY(-9px) rotate(-45deg);
+  }
+
+  /* Adjust Logo for mobile */
+  .logo-emblem, .logo-text {
+    height: 60px;
+    width: auto;
+  }
+  .logo-emblem {
+    width: 60px;
+  }
+  
+  .navbar-left {
+    gap: 0;
+  }
+
+  .navbar-links {
+    position: fixed;
+    top: 0;
+    right: -100%;
+    width: 70%;
+    height: 100vh;
+    background: var(--dark-base);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.5s ease;
+    z-index: 1050;
+    box-shadow: -5px 0 15px rgba(0,0,0,0.3);
+  }
+
+  .navbar-links.active {
+    right: 0;
+  }
+
+  .navbar-links a {
+    font-size: 1.5rem;
+    padding: 20px;
+  }
+
+  .navbar-auth {
+    display: none; /* Hide standard auth on mobile, moved into links or handled via overlay */
+  }
+  
+  /* If menu is open, show auth at bottom of drawer */
+  .navbar-auth.active {
+    display: flex;
+    position: fixed;
+    bottom: 50px;
+    right: 15%; /* Centered in the 70% width drawer */
+    width: 40%;
+    flex-direction: column;
+    z-index: 1060;
+  }
+  .navbar-auth.active .user-area {
+    flex-direction: column;
+  }
+}
+
+@media (max-width: 480px) {
+  .navbar-container {
+    padding: 0 20px;
+  }
+  .logo-text {
+    display: none; /* Only show emblem on very small screens to save space */
+  }
+}
