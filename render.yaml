@@ -15,20 +15,18 @@ services:
       - key: PORT
         value: 5001
 
-  # Frontend: Static Site
-  - type: static
+  # Frontend: Static Site (Uses type: web + runtime: static)
+  - type: web
     name: morgex-frontend
+    runtime: static
     plan: free
     rootDir: morgex-client
     buildCommand: npm install && npm run build
-    publishPath: dist
+    staticPublishPath: dist
     envVars:
       - key: VITE_API_URL
-        # Pulls the backend URL automatically
-        fromService:
-          type: web
-          name: morgex-backend
-          property: url
+        # Automatic interpolation from the other service
+        value: ${morgex-backend.url}/api
     # SPA Routing: Redirect all requests to index.html for React Router
     routes:
       - type: rewrite
