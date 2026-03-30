@@ -311,18 +311,16 @@
     display: none; /* Hide standard auth on mobile, moved into links or handled via overlay */
   }
   
-  /* If menu is open, show auth at bottom of drawer */
   .navbar-auth.active {
     display: flex;
     position: fixed;
     bottom: 50px;
-    right: 15%; /* Centered in the 70% width drawer */
-    width: 40%;
+    right: 0;
+    width: 70%; /* Match drawer width */
     flex-direction: column;
+    justify-content: center;
+    align-items: center;
     z-index: 1060;
-  }
-  .navbar-auth.active .user-area {
-    flex-direction: column;
   }
 }
 
@@ -331,6 +329,11 @@
     padding: 0 20px;
   }
   .logo-text {
-    display: none; /* Only show emblem on very small screens to save space */
+    height: 45px; /* Smaller but visible */
+    display: block;
+  }
+  .logo-emblem {
+    width: 50px;
+    height: 50px;
   }
 }
