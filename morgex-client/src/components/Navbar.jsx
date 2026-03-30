@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
@@ -9,29 +9,44 @@ const Navbar = () => {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [profileOpen, setProfileOpen] = useState(false);
   const [userStats, setUserStats] = useState({ ongoing: 0, completed: 0 });
+  const drawerRef = useRef(null);
 
   // Only apply transparent/floating effect on Home page
   const isHome = location.pathname === '/';
 
+  // Close menu on route change
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
   useEffect(() => {
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close menu when clicking outside the drawer
   useEffect(() => {
-    if (currentUser) {
-      fetchUserStats();
-    }
+    const handleClickOutside = (e) => {
+      if (isMenuOpen && drawerRef.current && !drawerRef.current.contains(e.target)) {
+        setIsMenuOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, [isMenuOpen]);
+
+  // Lock body scroll when drawer is open
+  useEffect(() => {
+    document.body.style.overflow = isMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
+  }, [isMenuOpen]);
+
+  useEffect(() => {
+    if (currentUser) fetchUserStats();
   }, [currentUser]);
 
   const fetchUserStats = async () => {
@@ -42,12 +57,13 @@ const Navbar = () => {
       });
       if (res.ok) {
         const data = await res.json();
-        const ongoing = data.filter(c => !c.isCompleted).length;
-        const completed = data.filter(c => c.isCompleted).length;
-        setUserStats({ ongoing, completed });
+        setUserStats({
+          ongoing: data.filter(c => !c.isCompleted).length,
+          completed: data.filter(c => c.isCompleted).length,
+        });
       }
     } catch (err) {
-      console.warn("Could not fetch user stats for Navbar");
+      console.warn('Could not fetch user stats for Navbar');
     }
   };
 
@@ -60,72 +76,133 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     setIsMenuOpen(false);
-    setProfileOpen(false);
     navigate('/');
   };
 
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
   const closeMenu = () => setIsMenuOpen(false);
+  const toggleMenu = () => setIsMenuOpen(prev => !prev);
 
   return (
-    <nav className={`navbar ${isHome && !isScrolled ? 'navbar-transparent' : 'navbar-solid'} ${isMenuOpen ? 'menu-open' : ''}`}>
-      <div className="navbar-container">
-        <div className="navbar-left">
+    <>
+      {/* Backdrop overlay */}
+      {isMenuOpen && <div className="mobile-overlay" onClick={closeMenu} />}
+
+      <nav className={`navbar ${isHome && !isScrolled ? 'navbar-transparent' : 'navbar-solid'}`}>
+        <div className="navbar-container">
+
+          {/* Logo */}
           <Link to="/" className="navbar-logo" onClick={closeMenu}>
             <img src="/Logo.jpg" alt="Morgex Emblem" className="logo-emblem" />
             <img src="/Morgex-Name-Logo .jpg" alt="Morgex Name" className="logo-text" />
           </Link>
-          
-          <div className={`navbar-links ${isMenuOpen ? 'active' : ''}`}>
-            <Link to="/" className="link-fancy" onClick={closeMenu}>Home</Link>
-            <Link to="/courses" className="link-fancy" onClick={closeMenu}>All Courses</Link>
-            {currentUser && <Link to="/dashboard" className="link-fancy" onClick={closeMenu}>Dashboard</Link>}
-            <Link to="/about" className="link-fancy" onClick={closeMenu}>About Us</Link>
+
+          {/* Desktop links */}
+          <div className="navbar-links desktop-only">
+            <Link to="/" className="link-fancy">Home</Link>
+            <Link to="/courses" className="link-fancy">All Courses</Link>
+            {currentUser && <Link to="/dashboard" className="link-fancy">Dashboard</Link>}
+            <Link to="/about" className="link-fancy">About Us</Link>
+          </div>
+
+          {/* Desktop auth */}
+          <div className="navbar-auth desktop-only">
+            {currentUser ? (
+              <div className="user-area-enhanced">
+                <div className="avatar-wrapper" onClick={() => navigate('/dashboard')}>
+                  <div className="avatar-circle">{getInitial()}</div>
+                </div>
+              </div>
+            ) : (
+              <button className="btn nav-btn" onClick={() => navigate('/login')}>Sign In</button>
+            )}
+          </div>
+
+          {/* Hamburger — mobile only */}
+          <div className={`nav-toggle ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
+            <div className="bar"></div>
+            <div className="bar"></div>
+            <div className="bar"></div>
           </div>
         </div>
-        
-        <div className={`navbar-auth ${isMenuOpen ? 'active' : ''}`}>
+
+        {/* ===== UNIFIED MOBILE DRAWER ===== */}
+        <div ref={drawerRef} className={`mobile-drawer ${isMenuOpen ? 'active' : ''}`}>
+          {/* Close button */}
+          <button className="drawer-close" onClick={closeMenu}>✕</button>
+
+          {/* User profile section inside drawer */}
           {currentUser ? (
-            <div className="user-area-enhanced">
-              <div className="avatar-wrapper" onClick={() => setProfileOpen(!profileOpen)}>
-                <div className="avatar-circle">{getInitial()}</div>
-                {profileOpen && (
-                  <div className="profile-dropdown">
-                    <div className="dropdown-header">
-                      <p className="user-email">{currentUser.email}</p>
-                      <p className="user-role">Student</p>
-                    </div>
-                    <div className="dropdown-stats">
-                      <div className="stat-item">
-                        <span>Ongoing</span>
-                        <strong>{userStats.ongoing}</strong>
-                      </div>
-                      <div className="stat-item">
-                        <span>Completed</span>
-                        <strong>{userStats.completed}</strong>
-                      </div>
-                    </div>
-                    <div className="dropdown-actions">
-                      <button onClick={() => { navigate('/dashboard'); setProfileOpen(false); closeMenu(); }}>My Learning</button>
-                      <button className="logout-btn" onClick={handleLogout}>Logout</button>
-                    </div>
-                  </div>
-                )}
+            <div className="drawer-profile">
+              <div className="drawer-avatar">{getInitial()}</div>
+              <div className="drawer-user-info">
+                <p className="drawer-email">{currentUser.email}</p>
+                <p className="drawer-role">Student</p>
+              </div>
+              <div className="drawer-stats">
+                <div className="drawer-stat">
+                  <strong>{userStats.ongoing}</strong>
+                  <span>Ongoing</span>
+                </div>
+                <div className="drawer-stat">
+                  <strong>{userStats.completed}</strong>
+                  <span>Completed</span>
+                </div>
               </div>
             </div>
           ) : (
-            <button className="btn nav-btn" onClick={() => { navigate('/login'); closeMenu(); }}>Sign In</button>
+            <div className="drawer-guest">
+              <p>Welcome to <strong>Morgex</strong></p>
+            </div>
           )}
-        </div>
 
-        {/* Hamburger Widget */}
-        <div className={`nav-toggle ${isMenuOpen ? 'open' : ''}`} onClick={toggleMenu}>
-          <div className="bar"></div>
-          <div className="bar"></div>
-          <div className="bar"></div>
+          <hr className="drawer-divider" />
+
+          {/* Nav Links */}
+          <nav className="drawer-links">
+            <Link to="/" className="drawer-link" onClick={closeMenu}>🏠 Home</Link>
+            <Link to="/courses" className="drawer-link" onClick={closeMenu}>📚 All Courses</Link>
+            {currentUser && (
+              <Link to="/dashboard" className="drawer-link" onClick={closeMenu}>📊 Dashboard</Link>
+            )}
+            <Link to="/about" className="drawer-link" onClick={closeMenu}>ℹ️ About Us</Link>
+          </nav>
+
+          <hr className="drawer-divider" />
+
+          {/* Auth actions at the bottom */}
+          <div className="drawer-actions">
+            {currentUser ? (
+              <>
+                <button
+                  className="drawer-btn primary"
+                  onClick={() => { navigate('/dashboard'); closeMenu(); }}
+                >
+                  My Learning
+                </button>
+                <button className="drawer-btn danger" onClick={handleLogout}>
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <button
+                  className="drawer-btn primary"
+                  onClick={() => { navigate('/login'); closeMenu(); }}
+                >
+                  Sign In
+                </button>
+                <button
+                  className="drawer-btn outline"
+                  onClick={() => { navigate('/register'); closeMenu(); }}
+                >
+                  Sign Up
+                </button>
+              </>
+            )}
+          </div>
         </div>
-      </div>
-    </nav>
+      </nav>
+    </>
   );
 };
 
