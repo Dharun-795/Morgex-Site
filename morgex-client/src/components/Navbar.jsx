@@ -124,84 +124,84 @@ const Navbar = () => {
             <div className="bar"></div>
           </div>
         </div>
-
-        {/* ===== UNIFIED MOBILE DRAWER ===== */}
-        <div ref={drawerRef} className={`mobile-drawer ${isMenuOpen ? 'active' : ''}`}>
-          {/* Close button */}
-          <button className="drawer-close" onClick={closeMenu}>✕</button>
-
-          {/* User profile section inside drawer */}
-          {currentUser ? (
-            <div className="drawer-profile">
-              <div className="drawer-avatar">{getInitial()}</div>
-              <div className="drawer-user-info">
-                <p className="drawer-email">{currentUser.email}</p>
-                <p className="drawer-role">Student</p>
-              </div>
-              <div className="drawer-stats">
-                <div className="drawer-stat">
-                  <strong>{userStats.ongoing}</strong>
-                  <span>Ongoing</span>
-                </div>
-                <div className="drawer-stat">
-                  <strong>{userStats.completed}</strong>
-                  <span>Completed</span>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <div className="drawer-guest">
-              <p>Welcome to <strong>Morgex</strong></p>
-            </div>
-          )}
-
-          <hr className="drawer-divider" />
-
-          {/* Nav Links */}
-          <nav className="drawer-links">
-            <Link to="/" className="drawer-link" onClick={closeMenu}>🏠 Home</Link>
-            <Link to="/courses" className="drawer-link" onClick={closeMenu}>📚 All Courses</Link>
-            {currentUser && (
-              <Link to="/dashboard" className="drawer-link" onClick={closeMenu}>📊 Dashboard</Link>
-            )}
-            <Link to="/about" className="drawer-link" onClick={closeMenu}>ℹ️ About Us</Link>
-          </nav>
-
-          <hr className="drawer-divider" />
-
-          {/* Auth actions at the bottom */}
-          <div className="drawer-actions">
-            {currentUser ? (
-              <>
-                <button
-                  className="drawer-btn primary"
-                  onClick={() => { navigate('/dashboard'); closeMenu(); }}
-                >
-                  My Learning
-                </button>
-                <button className="drawer-btn danger" onClick={handleLogout}>
-                  Logout
-                </button>
-              </>
-            ) : (
-              <>
-                <button
-                  className="drawer-btn primary"
-                  onClick={() => { navigate('/login'); closeMenu(); }}
-                >
-                  Sign In
-                </button>
-                <button
-                  className="drawer-btn outline"
-                  onClick={() => { navigate('/register'); closeMenu(); }}
-                >
-                  Sign Up
-                </button>
-              </>
-            )}
-          </div>
-        </div>
       </nav>
+
+      {/* ===== UNIFIED MOBILE DRAWER (outside <nav> for correct stacking) ===== */}
+      <div ref={drawerRef} className={`mobile-drawer ${isMenuOpen ? 'active' : ''}`}>
+        {/* Close button */}
+        <button className="drawer-close" onClick={closeMenu}>✕</button>
+
+        {/* User profile section inside drawer */}
+        {currentUser ? (
+          <div className="drawer-profile">
+            <div className="drawer-avatar">{getInitial()}</div>
+            <div className="drawer-user-info">
+              <p className="drawer-email">{currentUser.email}</p>
+              <p className="drawer-role">Student</p>
+            </div>
+            <div className="drawer-stats">
+              <div className="drawer-stat">
+                <strong>{userStats.ongoing}</strong>
+                <span>Ongoing</span>
+              </div>
+              <div className="drawer-stat">
+                <strong>{userStats.completed}</strong>
+                <span>Completed</span>
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div className="drawer-guest">
+            <p>Welcome to <strong>Morgex</strong></p>
+          </div>
+        )}
+
+        <hr className="drawer-divider" />
+
+        {/* Nav Links */}
+        <nav className="drawer-links">
+          <Link to="/" className="drawer-link" onClick={closeMenu}>🏠 Home</Link>
+          <Link to="/courses" className="drawer-link" onClick={closeMenu}>📚 All Courses</Link>
+          {currentUser && (
+            <Link to="/dashboard" className="drawer-link" onClick={closeMenu}>📊 Dashboard</Link>
+          )}
+          <Link to="/about" className="drawer-link" onClick={closeMenu}>ℹ️ About Us</Link>
+        </nav>
+
+        <hr className="drawer-divider" />
+
+        {/* Auth actions at the bottom */}
+        <div className="drawer-actions">
+          {currentUser ? (
+            <>
+              <button
+                className="drawer-btn primary"
+                onClick={() => { navigate('/dashboard'); closeMenu(); }}
+              >
+                My Learning
+              </button>
+              <button className="drawer-btn danger" onClick={handleLogout}>
+                Logout
+              </button>
+            </>
+          ) : (
+            <>
+              <button
+                className="drawer-btn primary"
+                onClick={() => { navigate('/login'); closeMenu(); }}
+              >
+                Sign In
+              </button>
+              <button
+                className="drawer-btn outline"
+                onClick={() => { navigate('/register'); closeMenu(); }}
+              >
+                Sign Up
+              </button>
+            </>
+          )}
+        </div>
+      </div>
     </>
   );
 };

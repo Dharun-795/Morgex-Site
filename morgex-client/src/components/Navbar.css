@@ -168,10 +168,9 @@
 .mobile-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 1040;
-  backdrop-filter: blur(2px);
-  animation: fadeIn 0.3s ease;
+  background: rgba(0, 0, 0, 0.65);
+  z-index: 1049;
+  animation: fadeIn 0.25s ease;
 }
 
 @keyframes fadeIn {
@@ -183,25 +182,31 @@
    UNIFIED MOBILE DRAWER
 =========================== */
 .mobile-drawer {
-  display: none; /* hidden on desktop */
+  /* Always rendered in DOM but off-screen; shown via right: 0 when active */
   position: fixed;
   top: 0;
   right: -100%;
   width: min(320px, 85vw);
-  height: 100dvh; /* dynamic viewport height — no cut-off on mobile browsers */
+  height: 100dvh;
   background: linear-gradient(160deg, #0f0f1e 0%, #1a1a2e 60%, #16213e 100%);
+  display: flex;
   flex-direction: column;
   padding: 0;
   overflow-y: auto;
   overflow-x: hidden;
   z-index: 1050;
-  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.5);
+  box-shadow: -8px 0 30px rgba(0, 0, 0, 0.6);
   transition: right 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   border-left: 1px solid rgba(255, 255, 255, 0.08);
+  /* hidden on desktop via visibility */
+  visibility: hidden;
+  pointer-events: none;
 }
 
 .mobile-drawer.active {
   right: 0;
+  visibility: visible;
+  pointer-events: auto;
 }
 
 /* Close button */
@@ -430,9 +435,7 @@
     display: none !important;
   }
 
-  .mobile-drawer {
-    display: flex; /* show the drawer on mobile */
-  }
+  /* Drawer is always flex (visibility controls show/hide), nothing extra needed */
 
   /* Adjust logo for mobile */
   .logo-emblem {
