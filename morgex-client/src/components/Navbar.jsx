@@ -9,8 +9,10 @@ const Navbar = () => {
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
   const [userStats, setUserStats] = useState({ ongoing: 0, completed: 0 });
   const drawerRef = useRef(null);
+  const profileRef = useRef(null);
 
   // Only apply transparent/floating effect on Home page
   const isHome = location.pathname === '/';
@@ -28,16 +30,19 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close menu when clicking outside the drawer
+  // Close menu when clicking outside the drawer or profile dropdown
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (isMenuOpen && drawerRef.current && !drawerRef.current.contains(e.target)) {
         setIsMenuOpen(false);
       }
+      if (profileOpen && profileRef.current && !profileRef.current.contains(e.target)) {
+        setProfileOpen(false);
+      }
     };
     document.addEventListener('mousedown', handleClickOutside);
     return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, [isMenuOpen]);
+  }, [isMenuOpen, profileOpen]);
 
   // Lock body scroll when drawer is open
   useEffect(() => {
@@ -76,6 +81,7 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     setIsMenuOpen(false);
+    setProfileOpen(false);
     navigate('/');
   };
 
@@ -107,10 +113,34 @@ const Navbar = () => {
           {/* Desktop auth */}
           <div className="navbar-auth desktop-only">
             {currentUser ? (
-              <div className="user-area-enhanced">
-                <div className="avatar-wrapper" onClick={() => navigate('/dashboard')}>
+              <div className="user-area-enhanced" ref={profileRef}>
+                <div className="avatar-wrapper" onClick={() => setProfileOpen(prev => !prev)}>
                   <div className="avatar-circle">{getInitial()}</div>
                 </div>
+                {profileOpen && (
+                  <div className="profile-dropdown">
+                    <div className="dropdown-header">
+                      <p className="user-email">{currentUser.email}</p>
+                      <p className="user-role">Student</p>
+                    </div>
+                    <div className="dropdown-stats">
+                      <div className="stat-item">
+                        <span>Ongoing</span>
+                        <strong>{userStats.ongoing}</strong>
+                      </div>
+                      <div className="stat-item">
+                        <span>Completed</span>
+                        <strong>{userStats.completed}</strong>
+                      </div>
+                    </div>
+                    <div className="dropdown-actions">
+                      <button onClick={() => { navigate('/dashboard'); setProfileOpen(false); }}>
+                        My Learning
+                      </button>
+                      <button className="logout-btn" onClick={handleLogout}>Logout</button>
+                    </div>
+                  </div>
+                )}
               </div>
             ) : (
               <button className="btn nav-btn" onClick={() => navigate('/login')}>Sign In</button>
