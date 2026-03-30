@@ -4,11 +4,13 @@ import { useAuth } from '../context/AuthContext';
 import './Navbar.css';
 
 const Navbar = () => {
-  const { currentUser, logout } = useAuth();
+  const { currentUser, logout, getToken } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [userStats, setUserStats] = useState({ ongoing: 0, completed: 0 });
 
   // Only apply transparent/floating effect on Home page
   const isHome = location.pathname === '/';
@@ -26,9 +28,39 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    if (currentUser) {
+      fetchUserStats();
+    }
+  }, [currentUser]);
+
+  const fetchUserStats = async () => {
+    const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001/api';
+    try {
+      const res = await fetch(`${API_URL}/courses/user/enrolled`, {
+        headers: { 'x-auth-token': getToken() }
+      });
+      if (res.ok) {
+        const data = await res.json();
+        const ongoing = data.filter(c => !c.isCompleted).length;
+        const completed = data.filter(c => c.isCompleted).length;
+        setUserStats({ ongoing, completed });
+      }
+    } catch (err) {
+      console.warn("Could not fetch user stats for Navbar");
+    }
+  };
+
+  const getInitial = () => {
+    if (!currentUser) return '?';
+    const name = currentUser.username || currentUser.email;
+    return name.charAt(0).toUpperCase();
+  };
+
   const handleLogout = () => {
     logout();
     setIsMenuOpen(false);
+    setProfileOpen(false);
     navigate('/');
   };
 
@@ -53,10 +85,32 @@ const Navbar = () => {
         
         <div className={`navbar-auth ${isMenuOpen ? 'active' : ''}`}>
           {currentUser ? (
-            <div className="user-area">
-              <span className="user-name">👤 {currentUser.username || currentUser.email.split('@')[0]}</span>
-              <button className="btn nav-btn" onClick={() => { navigate('/dashboard'); closeMenu(); }}>My Courses</button>
-              <button className="btn nav-btn outline" onClick={handleLogout}>Logout</button>
+            <div className="user-area-enhanced">
+              <div className="avatar-wrapper" onClick={() => setProfileOpen(!profileOpen)}>
+                <div className="avatar-circle">{getInitial()}</div>
+                {profileOpen && (
+                  <div className="profile-dropdown">
+                    <div className="dropdown-header">
+                      <p className="user-email">{currentUser.email}</p>
+                      <p className="user-role">Student</p>
+                    </div>
+                    <div className="dropdown-stats">
+                      <div className="stat-item">
+                        <span>Ongoing</span>
+                        <strong>{userStats.ongoing}</strong>
+                      </div>
+                      <div className="stat-item">
+                        <span>Completed</span>
+                        <strong>{userStats.completed}</strong>
+                      </div>
+                    </div>
+                    <div className="dropdown-actions">
+                      <button onClick={() => { navigate('/dashboard'); setProfileOpen(false); closeMenu(); }}>My Learning</button>
+                      <button className="logout-btn" onClick={handleLogout}>Logout</button>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           ) : (
             <button className="btn nav-btn" onClick={() => { navigate('/login'); closeMenu(); }}>Sign In</button>

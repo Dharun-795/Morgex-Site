@@ -3,6 +3,7 @@ import './CheckoutModal.css';
 
 const CheckoutModal = ({ course, onClose, onSuccess }) => {
   const [status, setStatus] = useState('input'); // 'input', 'processing', 'success'
+  const [method, setMethod] = useState('card'); // 'card', 'upi'
   const [txnId, setTxnId] = useState('');
 
   const handlePayment = (e) => {

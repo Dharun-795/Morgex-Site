@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { allCourses, userEnrollments } from '../data/mockData';
 import CourseCard from '../components/CourseCard';
+import CertificateModal from '../components/CertificateModal';
 import './Dashboard.css';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://127.0.0.1:5001/api';
@@ -10,6 +11,7 @@ const Dashboard = () => {
   const { currentUser, getToken } = useAuth();
   const [enrolledCourses, setEnrolledCourses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [selectedCourseForCert, setSelectedCourseForCert] = useState(null);
 
   useEffect(() => {
     if (currentUser) {
@@ -27,25 +29,45 @@ const Dashboard = () => {
       if (!res.ok) throw new Error('API failed');
       const data = await res.json();
       
-      // Add mock progress to the real data from DB
+      // Add mock progress to the real data from DB if not completed
       const processedData = data.map(c => ({
         ...c, 
-        progress: Math.floor(Math.random() * 80) + 10 
+        progress: c.isCompleted ? 100 : (c.progress || Math.floor(Math.random() * 60) + 10)
       }));
       setEnrolledCourses(processedData);
     } catch (err) {
       console.warn("Backend fetch failed, using mock data", err);
       // Fallback to mock data if backend isn't running
-      const courseIds = userEnrollments['test@user.com'] || [];
+      const courseIds = userEnrollments[currentUser?.email] || userEnrollments['test@user.com'] || [];
       const userCourses = allCourses.map(c => {
         if (courseIds.includes(c.id)) {
-          return { ...c, progress: Math.floor(Math.random() * 80) + 10 }; 
+          return { ...c, progress: Math.floor(Math.random() * 80) + 10, isCompleted: false }; 
         }
         return null;
       }).filter(Boolean);
       setEnrolledCourses(userCourses);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const markAsComplete = async (courseId) => {
+    try {
+      const res = await fetch(`${API_URL}/courses/complete/${courseId}`, {
+        method: 'POST',
+        headers: {
+          'x-auth-token': getToken()
+        }
+      });
+      if (res.ok) {
+        fetchUserCourses();
+      } else {
+        const error = await res.json();
+        alert(error.message || "Failed to complete course");
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Network error while completing course");
     }
   };
 
@@ -77,7 +99,11 @@ const Dashboard = () => {
               <div key={course._id || course.id} className="course-progress-card">
                 <div className="access-info-bar">
                   <span className="info-item">📅 Enrolled: {formatDate(course.enrolledAt)}</span>
-                  <span className="info-item expiry">⏳ Expires: {formatDate(course.expiresAt)}</span>
+                  {course.isCompleted ? (
+                    <span className="info-item completed-tag">⭐ Completed on {formatDate(course.completedAt)}</span>
+                  ) : (
+                    <span className="info-item expiry">⏳ Expires: {formatDate(course.expiresAt)}</span>
+                  )}
                 </div>
                 <CourseCard course={course} />
                 <div className="progress-bar-container">
@@ -87,11 +113,29 @@ const Dashboard = () => {
                   </div>
                   <div className="progress-bg">
                     <div 
-                      className="progress-fill" 
+                      className={`progress-fill ${course.isCompleted ? 'completed' : ''}`} 
                       style={{ width: `${course.progress}%` }}
                     ></div>
                   </div>
-                  <button className="btn continue-btn">Continue Learning</button>
+                  
+                  {course.isCompleted ? (
+                    <button 
+                      className="btn certificate-btn"
+                      onClick={() => setSelectedCourseForCert(course)}
+                    >
+                      🎓 View Certificate
+                    </button>
+                  ) : (
+                    <div className="dashboard-actions-grid">
+                      <button className="btn continue-btn">Continue</button>
+                      <button 
+                        className="btn complete-btn"
+                        onClick={() => markAsComplete(course._id || course.id)}
+                      >
+                        ✅ Complete
+                      </button>
+                    </div>
+                  )}
                 </div>
               </div>
             ))}
@@ -101,10 +145,18 @@ const Dashboard = () => {
             <div className="empty-icon">📚</div>
             <h3>No Courses Yet</h3>
             <p>You haven't enrolled in any courses. Explore our catalog to start building your skills!</p>
-            <a href="/#courses" className="btn exp-btn">Browse Catalog</a>
+            <a href="/courses" className="btn exp-btn">Browse Catalog</a>
           </div>
         )}
       </div>
+
+      {selectedCourseForCert && (
+        <CertificateModal 
+          course={selectedCourseForCert} 
+          user={currentUser}
+          onClose={() => setSelectedCourseForCert(null)} 
+        />
+      )}
     </div>
   );
 };

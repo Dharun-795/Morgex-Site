@@ -114,7 +114,7 @@ const CourseDetails = () => {
 
         <div className="course-sidebar-wrapper">
           <div className="course-sidebar-card">
-            <img src={course.image} alt={course.title} className="sidebar-image" />
+            <img src={course.thumbnail || course.image} alt={course.title} className="sidebar-image" />
             <div className="sidebar-content">
               <h2 className="price">₹{course.price}</h2>
               <button className="btn buy-btn" onClick={handleBuyClick}>

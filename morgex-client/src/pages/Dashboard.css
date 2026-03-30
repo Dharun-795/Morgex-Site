@@ -61,6 +61,11 @@
   color: #0f172a;
 }
 
+.info-item.completed-tag {
+  color: #22c55e;
+  font-weight: 700;
+}
+
 .course-progress-card:hover {
   transform: translateY(-8px);
   box-shadow: 0 15px 35px rgba(213, 139, 28, 0.25);
@@ -96,9 +101,47 @@
   transition: width 1s ease-in-out;
 }
 
+.progress-fill.completed {
+  background-color: #22c55e;
+}
+
+.dashboard-actions-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
 .continue-btn {
   width: 100%;
   padding: 10px;
+  background-color: var(--dark-mid);
+}
+
+.complete-btn {
+  width: 100%;
+  padding: 10px;
+  background-color: white;
+  color: var(--dark-base);
+  border: 1px solid #e2e8f0;
+}
+
+.complete-btn:hover {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+}
+
+.certificate-btn {
+  width: 100%;
+  padding: 12px;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.3);
+}
+
+.certificate-btn:hover {
+  transform: scale(1.02);
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.4);
 }
 
 .empty-state {

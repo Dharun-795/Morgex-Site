@@ -86,11 +86,37 @@ router.get('/user/enrolled', authMiddleware, async (req, res) => {
       return {
         ...course.toObject(),
         enrolledAt: enrollment.enrolledAt,
-        expiresAt: enrollment.expiresAt
+        expiresAt: enrollment.expiresAt,
+        isCompleted: enrollment.isCompleted || false,
+        completedAt: enrollment.completedAt
       };
     });
     
     res.json(enrichedCourses);
+  } catch (err) {
+    res.status(500).json({ message: 'Server error', error: err.message });
+  }
+});
+
+// Complete a course
+router.post('/complete/:id', authMiddleware, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.id);
+    const enrolId = req.params.id;
+    
+    // Find enrollment by courseId
+    const index = user.enrolledCourses.findIndex(e => e.courseId.toString() === enrolId);
+    
+    if (index === -1) {
+      return res.status(404).json({ message: 'Enrollment not found for this course' });
+    }
+    
+    user.enrolledCourses[index].isCompleted = true;
+    user.enrolledCourses[index].completedAt = new Date();
+    
+    await user.save();
+    
+    res.json({ message: 'Course marked as completed', enrollment: user.enrolledCourses[index] });
   } catch (err) {
     res.status(500).json({ message: 'Server error', error: err.message });
   }
