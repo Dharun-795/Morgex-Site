@@ -1,16 +1,40 @@
-# React + Vite
+# Morgex Platform - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A modern, full-stack education platform (MERN) designed for a premium learning experience, inspired by platforms like Udemy and Coursera.
 
-Currently, two official plugins are available:
+## ✨ Key Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **Course Discovery**: Browse categorized courses (Web Development, Cloud, Cybersecurity, etc.) with advanced filtering and search.
+- **Dynamic Dashboard**: Track your enrollment, progress, and course expiry dates.
+- **User Profiles**: Personalized accounts with circular avatars and real-time statistics.
+- **Course Completion**: One-click completion for finished courses.
+- **Virtual Certificates**: Earn premium, downloadable/printable certificates for every completed course.
+- **Responsive Design**: Fully optimized for mobile, tablet, and desktop with a sleek, dark-themed UI.
+- **Secure Checkout**: Integrated checkout simulation (Card/UPI) with transaction tracking.
 
-## React Compiler
+## 🛠️ Technology Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- **Framework**: React.js (Vite)
+- **Styling**: Vanilla CSS (Custom design system)
+- **State Management**: Context API
+- **Routing**: React Router DOM
+- **Icons**: Custom emojis & CSS-based icons
 
-## Expanding the ESLint configuration
+## 🚀 Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+1.  **Install dependencies**:
+    ```bash
+    npm install
+    ```
+2.  **Configure Environment**:
+    Create a `.env` file and set:
+    ```
+    VITE_API_URL=http://localhost:5000/api
+    ```
+3.  **Run Development Server**:
+    ```bash
+    npm run dev
+    ```
+
+## 📄 License
+MIT License - Morgex Education Platform 2026.

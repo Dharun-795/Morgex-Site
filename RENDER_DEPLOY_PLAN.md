@@ -33,11 +33,19 @@ This guide outlines the steps to deploy your Full-Stack MERN application to prod
     - **Destination:** `/index.html`
     - **Status:** `200`
 
-## 4. Mobile Site Readiness
+## 4. New Platform Features (Post-Update)
+The application now includes several high-end features that require no additional configuration but enhance the user experience:
+- **Circular Profile Avatars**: Automated initial-based avatars for every user.
+- **Course Completion Tracking**: Users can now mark courses as "Complete" which is persisted in the database.
+- **Virtual Certificates**: High-quality, printable certificates are automatically generated upon course completion.
+- **Ongoing/Completed Stats**: Real-time progress tracking visible in the user's profile dropdown.
+
+## 5. Mobile Site Readiness
 The application is already configured with:
 - **Responsive Navbar:** Collapses to a hamburger menu on small screens.
 - **Mobile Checkout:** The payment modal transforms into a bottom-anchored "Shelf" view for easier thumb interaction on phones.
 - **Fluid Grids:** Course cards stack vertically to prevent horizontal scrolling.
+- **Mobile Certificates:** Certificates are responsive and can be viewed easily on smartphones.
 
 > [!TIP]
 > Always test your `API_URL` with a browser before linking the frontend to ensure the backend is live and "MongoDB connected successfully" is in the logs!
